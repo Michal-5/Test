@@ -1,0 +1,69 @@
+import random
+
+SlovaSVK = ["vysvetlenie", "kreslo", "popolnik", "predpokladať", "nahý", "knižnica", "vlámať sa", "úplatok", "vlámanie", "vyžadovať si", "navštíviť, zastaviť sa u niekoho", "cela", "porcelán", "indícia",
+            "koferenčný stolík", "stretnuť(náhodou)", "podvodník", "spoliehať sa na, počítať s", "prikriť", "posádka", "záclona, záves", "zaoberať sa", "istý, definitívny", "opustený", "zaobísť sa bez",
+            "odísť", "drogový díler", "objaviť sa", "stretnúť (sa)", "látka", "smrteľný", "krb", "podlaha", "múka", "kvetinový záhon", "podnožka", "falzifikát", "prekonať", "sklo", "nepriamy", "v úkrite, na úteku",
+            "žehliaca doska", "kľúčova dierka", "uniesť", "tienidlo", "starať sa o (koho, čo)", "hľadať","nazrieť","udržiavať","mramor","tajomný","olejomaľba","na úteku","väzenie","dokázať","prepustenie",
+            "znovu sa stretnúť","zlodej","hojdacie kreslo","príborník","držať sa","podviesť,oklamať","nástenná lampa","tapeta","túlať sa","parapeta","svedok","drevo","rana"]
+
+SlovaENG = ["account", "armchair", "ashtray", "assume", "bare", "bookcase", "break into", "bribe", "burglary", "call for", "call on", "cell", "china", "clue", "coffe table", "come across", "conman", "count on",
+            "cover", "crew", "curtain", "deal with", "definite", "deserted", "do without", "drive of", "drug-dealer", "emerge", "encounter", "fabric", "fatal", "fireplace", "floorboard", "flour", "flowerbed",
+            "footstool", "forgery", "get over", "glass", "indirect", "in hiding", "ironing board", "key hole", "kidnap","light shade","look after","look for","look into","maintain","marble","mysterious","oil painting",
+            "on the run","prison","prove","release","reunite","robber","rocking chair","sideboard","stick to","trick","wall light","wallpaper","wander","windowsill","witness","wood","wound"]
+
+pocetSlov = len(SlovaSVK)
+testSlovOut = [1, 0, 0]
+usedNums = []
+skore = 0
+
+def vypTest ():
+    Odpoved = input("Zopakovať test ? (A - Ano/N - Nie): ")
+    if Odpoved == "N":
+        return 0
+    else:
+        return 1
+
+def testSlov (pocetSlov, wForTransl, wTransl, usedNums, testSlovOut):
+
+    con = 0
+    output = testSlovOut
+    output[2] = random.randint(0, pocetSlov - 1)
+
+    for i in usedNums:
+        if output[2] == usedNums[con]:
+            if output[2] > len(usedNums):
+                output[2] = 0
+            else:
+                output[2] += 1
+        con += 1
+
+    print(wForTransl[output[2]])
+    preklad = input("Preklad: ")
+
+    if preklad == wTransl[output[2]]:
+        print("Spravne!")
+        output[1] = 1
+        return output
+    else:
+        print("Nespravne! Správna odpoveď: ( " + wTransl[output[2]] + " )")
+        output[1] = 0
+        return output
+
+def dlzkaTestuF ():
+    return int(input("Aky dlhy ma byť test ?(Napiš čislo): "))
+
+while testSlovOut[0] == 1:
+    dlzkaTestu = dlzkaTestuF()
+    counter = dlzkaTestu
+    print("-------------------------------")
+    while counter != 0:
+        testSlovOut = testSlov(pocetSlov, SlovaSVK, SlovaENG, usedNums, testSlovOut)
+        usedNums.append(testSlovOut[2])
+        #print("Spravne odpovede: " + str(skore) + " + " + str(testSlovOut[1]))
+        print("-------------------------------")
+        skore += testSlovOut[1]
+        counter -= 1
+    print("tvoje finalne skore: ( " + str(skore) + " / " + str(dlzkaTestu) + " )")
+    skore = 0
+    usedNums = 0
+    testSlovOut[0] = vypTest()
